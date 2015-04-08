@@ -1,4 +1,10 @@
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.exoplatform.bch.service.User;
@@ -8,8 +14,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -38,7 +46,7 @@ public class UserServiceIntTest {
 
 
     @Test
-    public void shouldBePreAuthenticated() throws Exception {
+    public void authentOK() throws Exception {
         ResponseEntity<User[]> response = restTemplate.getForEntity("http://localhost:8080/user", User[].class);
         for (User user : response.getBody()) {
             System.out.println(user.getName());

@@ -1,4 +1,4 @@
-package org.exoplatform.bch.client;
+package client;
 
 import org.apache.http.auth.Credentials;
 import org.springframework.web.client.RestTemplate;
