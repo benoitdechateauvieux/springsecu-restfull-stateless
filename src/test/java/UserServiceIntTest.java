@@ -20,6 +20,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.hamcrest.CoreMatchers.startsWith;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+
 /**
  * Created by bdechateauvieux on 4/8/15.
  */
@@ -48,9 +57,14 @@ public class UserServiceIntTest {
     @Test
     public void authentOK() throws Exception {
         ResponseEntity<User[]> response = restTemplate.getForEntity("http://localhost:8080/user", User[].class);
-        for (User user : response.getBody()) {
-            System.out.println(user.getName());
+        for (Map.Entry<String, List<String>> header : response.getHeaders().entrySet()) {
+            for (String value : header.getValue()) {
+                assertThat(value, not(startsWith("JSESSIONID")));
+            }
         }
+
+        assertThat(response.getBody().length, is(1));
+        assertThat(response.getBody()[0].getName(), is("Benoit"));
     }
 
     @After

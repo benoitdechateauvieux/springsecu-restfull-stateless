@@ -21,7 +21,7 @@
     <bean id="httpClient" class="org.apache.http.impl.client.DefaultHttpClient">
         <property name="credentialsProvider" ref="credentialProvider"/>
     </bean>
-    
+
     <!-- Credentials provider needed by apache default http client -->
     <bean id="credentialProvider" class="org.apache.http.impl.client.BasicCredentialsProvider" />
 
