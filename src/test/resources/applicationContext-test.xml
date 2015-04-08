@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+	    http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <constructor-arg ref="httpClientFactory" />
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.GsonHttpMessageConverter" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="httpClientFactory"
+          class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
+        <constructor-arg ref="httpClient" />
+    </bean>
+
+    <bean id="httpClient" class="org.apache.http.impl.client.MinimalHttpClient">
+        <constructor-arg ref="connectionManager" />
+    </bean>
+
+    <bean id="connectionManager" class="org.apache.http.impl.conn.BasicHttpClientConnectionManager"/>
+</beans>
